@@ -77,3 +77,31 @@ export function getTrailingMessageId({
 export function sanitizeText(text: string) {
   return text.replace('<has_function_call>', '');
 }
+
+export function extractUserQuery(message: any): string {
+  // If message has a nested 'message' property, use it
+  const msg =
+    message && typeof message === 'object' && 'message' in message
+      ? message.message
+      : message;
+
+  // Most reliable: msg.content (string)
+  if (msg && typeof msg.content === 'string') {
+    return msg.content;
+  }
+  // Fallback: msg.parts[0].text
+  if (
+    msg &&
+    Array.isArray(msg.parts) &&
+    msg.parts.length > 0 &&
+    typeof msg.parts[0].text === 'string'
+  ) {
+    return msg.parts[0].text;
+  }
+  // Fallback: msg.text
+  if (msg && typeof msg.text === 'string') {
+    return msg.text;
+  }
+  // Not found
+  return '';
+}

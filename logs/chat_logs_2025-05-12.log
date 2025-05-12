@@ -1,0 +1,220 @@
+{
+  "timestamp": "2025-05-12T12:11:31.687Z",
+  "type": "USER",
+  "chatId": "c4bda283-c81a-41f8-946b-5a4f891d6397",
+  "userId": "11ad23ed-a0ec-4b00-b17e-1801d62dac8a",
+  "content": {
+    "message": {
+      "id": "4dccce10-f7ba-4237-8d8e-67658fa97612",
+      "createdAt": "2025-05-12T12:11:23.878Z",
+      "role": "user",
+      "content": "hello",
+      "parts": [
+        {
+          "text": "hello",
+          "type": "text"
+        }
+      ]
+    },
+    "selectedChatModel": "chat-model",
+    "selectedVisibilityType": "private"
+  }
+}
+---
+{
+  "timestamp": "2025-05-12T12:11:40.431Z",
+  "type": "MODEL",
+  "chatId": "c4bda283-c81a-41f8-946b-5a4f891d6397",
+  "userId": "11ad23ed-a0ec-4b00-b17e-1801d62dac8a",
+  "content": {
+    "parts": [
+      {
+        "type": "step-start"
+      },
+      {
+        "type": "text",
+        "text": "👋 Hello there! Welcome to our store! I'm so excited to help you find something amazing today! 😊 How can I make your shopping experience delightful? ✨\n"
+      }
+    ],
+    "reasoning": null,
+    "attachments": [],
+    "id": "5958d2d9-4824-4425-89e6-1871ca831892"
+  }
+}
+---
+{
+  "timestamp": "2025-05-12T12:12:31.651Z",
+  "type": "USER",
+  "chatId": "c4bda283-c81a-41f8-946b-5a4f891d6397",
+  "userId": "11ad23ed-a0ec-4b00-b17e-1801d62dac8a",
+  "content": {
+    "message": {
+      "id": "ea1d24d9-981e-4479-8b62-27a1996023f7",
+      "createdAt": "2025-05-12T12:12:31.359Z",
+      "role": "user",
+      "content": "Can you recommend some gift for my brother's birthday",
+      "parts": [
+        {
+          "text": "Can you recommend some gift for my brother's birthday",
+          "type": "text"
+        }
+      ]
+    },
+    "selectedChatModel": "chat-model",
+    "selectedVisibilityType": "private"
+  }
+}
+---
+{
+  "timestamp": "2025-05-12T12:12:41.471Z",
+  "type": "MODEL",
+  "chatId": "c4bda283-c81a-41f8-946b-5a4f891d6397",
+  "userId": "11ad23ed-a0ec-4b00-b17e-1801d62dac8a",
+  "content": {
+    "parts": [
+      {
+        "type": "step-start"
+      },
+      {
+        "type": "text",
+        "text": "Absolutely! 🎉 To give you the best recommendations, could you tell me a little more about your brother? For example:\n\n*   What are his interests or hobbies? \n*   What's your budget?\n*   Are there any specific items he's been wanting?\n\nIn the meantime, based on the products we have, here are a few ideas:\n\n*   If he enjoys sports, the \"Solid, Self Design Sports/Regular Cap (Pack of 2)\" could be a great choice! 🧢\n*   If he likes clothing, the \"Men Regular Mid Rise Dark Blue Jeans\" are a classic! 👖\n\nI'm here to help you find the perfect gift, so let me know more about your brother, and I'll tailor my suggestions just for him! 🎁\n"
+      }
+    ],
+    "reasoning": null,
+    "attachments": [],
+    "id": "abcf79fa-ff7f-4a6c-b972-d1f5e0831945"
+  }
+}
+---
+{
+  "timestamp": "2025-05-12T12:13:24.670Z",
+  "type": "USER",
+  "chatId": "c4bda283-c81a-41f8-946b-5a4f891d6397",
+  "userId": "11ad23ed-a0ec-4b00-b17e-1801d62dac8a",
+  "content": {
+    "message": {
+      "id": "0db5c207-7a32-406a-a29b-8fb022c6e0e3",
+      "createdAt": "2025-05-12T12:13:24.468Z",
+      "role": "user",
+      "content": "he a tech guy so anything in related to that",
+      "parts": [
+        {
+          "text": "he a tech guy so anything in related to that",
+          "type": "text"
+        }
+      ]
+    },
+    "selectedChatModel": "chat-model",
+    "selectedVisibilityType": "private"
+  }
+}
+---
+{
+  "timestamp": "2025-05-12T12:13:33.110Z",
+  "type": "MODEL",
+  "chatId": "c4bda283-c81a-41f8-946b-5a4f891d6397",
+  "userId": "11ad23ed-a0ec-4b00-b17e-1801d62dac8a",
+  "content": {
+    "parts": [
+      {
+        "type": "step-start"
+      },
+      {
+        "type": "text",
+        "text": "Great! For a tech-savvy brother, we have a couple of options that might interest him:\n\n*   **Minimals Analog Watch - For Men NT1806NM01**: A modern minimalistic timepiece. ⌚️\n*   **Test**: This is listed under electronics. 💡\n\nI'd be happy to provide more details on either of these if you'd like! Or, if you have any other preferences, just let me know! 😊\n"
+      }
+    ],
+    "reasoning": null,
+    "attachments": [],
+    "id": "9019ab66-d641-4d63-9a3c-7bab204059fb"
+  }
+}
+---
+{
+  "timestamp": "2025-05-12T12:14:28.626Z",
+  "type": "USER",
+  "chatId": "c4bda283-c81a-41f8-946b-5a4f891d6397",
+  "userId": "11ad23ed-a0ec-4b00-b17e-1801d62dac8a",
+  "content": {
+    "message": {
+      "id": "887ee49b-4f90-4613-b1d9-57c0c218971e",
+      "createdAt": "2025-05-12T12:14:28.344Z",
+      "role": "user",
+      "content": "could provide all the detaild about the analog watch",
+      "parts": [
+        {
+          "text": "could provide all the detaild about the analog watch",
+          "type": "text"
+        }
+      ]
+    },
+    "selectedChatModel": "chat-model",
+    "selectedVisibilityType": "private"
+  }
+}
+---
+{
+  "timestamp": "2025-05-12T12:14:35.296Z",
+  "type": "MODEL",
+  "chatId": "c4bda283-c81a-41f8-946b-5a4f891d6397",
+  "userId": "11ad23ed-a0ec-4b00-b17e-1801d62dac8a",
+  "content": {
+    "parts": [
+      {
+        "type": "step-start"
+      },
+      {
+        "type": "text",
+        "text": "Certainly! Let's dive into the details of the \"Minimals Analog Watch - For Men NT1806NM01\":\n\n*   **Product ID:** 6819cf2679cb28738b72c49d\n*   **Name:** Minimals Analog Watch - For Men NT1806NM01\n*   **Description:** Modern minimalistic timepieces for men\n*   **Price:** ₹20\n*   **Stock:** 30\n*   **Category:** Electronics\n\nThis watch is perfect for the tech-savvy man who appreciates a blend of modern design and functionality. It's a minimalistic timepiece, which means it has a sleek and uncluttered look. It's a great accessory for everyday wear! 😊\n\nWould you like to know anything else about this watch? Or perhaps you'd like to explore other options?\n"
+      }
+    ],
+    "reasoning": null,
+    "attachments": [],
+    "id": "61271217-4df3-405b-ae06-6309c64b0966"
+  }
+}
+---
+{
+  "timestamp": "2025-05-12T12:18:46.356Z",
+  "type": "USER",
+  "chatId": "c4bda283-c81a-41f8-946b-5a4f891d6397",
+  "userId": "11ad23ed-a0ec-4b00-b17e-1801d62dac8a",
+  "content": {
+    "message": {
+      "id": "f807515a-d4d7-4d0d-9106-fd6952b82aa6",
+      "createdAt": "2025-05-12T12:18:46.002Z",
+      "role": "user",
+      "content": "do you have any wirless headphone in stock",
+      "parts": [
+        {
+          "text": "do you have any wirless headphone in stock",
+          "type": "text"
+        }
+      ]
+    },
+    "selectedChatModel": "chat-model",
+    "selectedVisibilityType": "private"
+  }
+}
+---
+{
+  "timestamp": "2025-05-12T12:18:53.715Z",
+  "type": "MODEL",
+  "chatId": "c4bda283-c81a-41f8-946b-5a4f891d6397",
+  "userId": "11ad23ed-a0ec-4b00-b17e-1801d62dac8a",
+  "content": {
+    "parts": [
+      {
+        "type": "step-start"
+      },
+      {
+        "type": "text",
+        "text": "Yes, we do! We have the \"boAt Airdopes 161/163 with ASAP Charge & 40 HRS Playback Bluetooth (Cool Sapphire, True Wireless)\" in stock. 🎧\n\nHere's a quick rundown:\n\n*   **Product ID:** 6819dab0a32b2d706a75b9fd\n*   **Name:** boAt Airdopes 161/163 with ASAP Charge & 40 HRS Playback Bluetooth (Cool Sapphire, True Wireless)\n*   **Description:** These earbuds have 13mm drivers for immersive listening, Bluetooth v5.1, and IWP tech for instant pairing. They also feature ASAP Charge for quick charging and offer up to 40 hours of total playback. They're IPX5 water-resistant and have touch controls for easy use.\n*   **Price:** ₹10\n*   **Stock:** 43\n*   **Category:** Electronics\n\nWould you like to know more about these headphones? 😊\n"
+      }
+    ],
+    "reasoning": null,
+    "attachments": [],
+    "id": "97021824-30f7-436b-afa5-690a1f93df61"
+  }
+}
+---

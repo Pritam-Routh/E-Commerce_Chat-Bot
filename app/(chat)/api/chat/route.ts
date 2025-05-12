@@ -34,10 +34,75 @@ import {
 } from 'resumable-stream';
 import { after } from 'next/server';
 import type { Chat } from '@/lib/db/schema';
+import { initializeRAG } from '@/lib/ai/rag';
+import fs from 'fs';
+import path from 'path';
 
 export const maxDuration = 60;
 
 let globalStreamContext: ResumableStreamContext | null = null;
+
+// Initialize RAG system when the server starts
+let ragInitialized = false;
+async function ensureRAGInitialized() {
+  if (!ragInitialized) {
+    try {
+      await initializeRAG();
+      ragInitialized = true;
+    } catch (error) {
+      console.error('Failed to initialize RAG system:', error);
+    }
+  }
+}
+
+// Setup logging directory
+const LOG_DIR = path.join(process.cwd(), 'logs');
+if (!fs.existsSync(LOG_DIR)) {
+  try {
+    fs.mkdirSync(LOG_DIR, { recursive: true });
+  } catch (error) {
+    console.error('Failed to create logs directory:', error);
+  }
+}
+
+// Logging function for chat interactions
+function logChatInteraction(
+  type: 'USER' | 'MODEL',
+  chatId: string,
+  userId: string,
+  content: any,
+) {
+  try {
+    const timestamp = new Date().toISOString();
+    const logFileName = path.join(
+      LOG_DIR,
+      `chat_logs_${new Date().toISOString().split('T')[0]}.log`,
+    );
+
+    const logEntry = JSON.stringify(
+      {
+        timestamp,
+        type,
+        chatId,
+        userId,
+        content,
+      },
+      null,
+      2,
+    );
+
+    fs.appendFileSync(logFileName, logEntry + '\n---\n');
+
+    // Also log to console in development
+    if (process.env.NODE_ENV === 'development') {
+      console.log(
+        `[CHAT LOG] ${type} - ${timestamp} - ${chatId.substring(0, 8)}...`,
+      );
+    }
+  } catch (error) {
+    console.error('Failed to log chat interaction:', error);
+  }
+}
 
 function getStreamContext() {
   if (!globalStreamContext) {
@@ -46,12 +111,12 @@ function getStreamContext() {
         waitUntil: after,
       });
     } catch (error: any) {
-      if (error.message.includes('REDIS_URL')) {
+      if (error.message?.includes('REDIS_URL')) {
         console.log(
           ' > Resumable streams are disabled due to missing REDIS_URL',
         );
       } else {
-        console.error(error);
+        console.error('Error creating resumable stream context:', error);
       }
     }
   }
@@ -60,12 +125,15 @@ function getStreamContext() {
 }
 
 export async function POST(request: Request) {
+  // Ensure RAG is initialized
+  await ensureRAGInitialized();
   let requestBody: PostRequestBody;
 
   try {
     const json = await request.json();
     requestBody = postRequestBodySchema.parse(json);
-  } catch (_) {
+  } catch (error) {
+    console.error('Invalid request body:', error);
     return new Response('Invalid request body', { status: 400 });
   }
 
@@ -80,9 +148,17 @@ export async function POST(request: Request) {
     }
 
     const userType: UserType = session.user.type;
+    const userId = session.user.id;
+
+    // Log user message
+    logChatInteraction('USER', id, userId, {
+      message,
+      selectedChatModel,
+      selectedVisibilityType,
+    });
 
     const messageCount = await getMessageCountByUserId({
-      id: session.user.id,
+      id: userId,
       differenceInHours: 24,
     });
 
@@ -104,12 +180,12 @@ export async function POST(request: Request) {
 
       await saveChat({
         id,
-        userId: session.user.id,
+        userId,
         title,
         visibility: selectedVisibilityType,
       });
     } else {
-      if (chat.userId !== session.user.id) {
+      if (chat.userId !== userId) {
         return new Response('Forbidden', { status: 403 });
       }
     }
@@ -121,6 +197,46 @@ export async function POST(request: Request) {
       messages: previousMessages,
       message,
     });
+
+    // Get the latest user message for RAG context
+    console.log('latestUserMessage', message);
+    console.log('typeof Latestmessage:', typeof message);
+
+    function parseLatestMessage(msg) {
+      if (typeof msg !== 'object' || msg === null) {
+        throw new TypeError('Expected an object for latestUserMessage');
+      }
+
+      const { id, createdAt, role, content, parts } = msg;
+
+      // Convert createdAt to a Date instance if it's a string
+      const timestamp =
+        createdAt instanceof Date ? createdAt : new Date(createdAt);
+
+      // Extract an array of just the text from parts
+      const partTexts = Array.isArray(parts)
+        ? parts.map((p, i) => {
+            if (typeof p.text !== 'string') {
+              console.warn(
+                `Part at index ${i} missing text field or not a string`,
+              );
+              return '';
+            }
+            return p.text;
+          })
+        : [];
+
+      return content;
+    }
+
+    const latestUserMessageMe = parseLatestMessage(message);
+    console.log('latestUserMessage', latestUserMessageMe);
+    console.log('typeof latestUserMessage:', typeof latestUserMessageMe);
+
+    const latestUserMessage =
+      messages.length > 0
+        ? (messages[messages.length - 1].parts ?? []).join(' ')
+        : '';
 
     const { longitude, latitude, city, country } = geolocation(request);
 
@@ -147,11 +263,29 @@ export async function POST(request: Request) {
     const streamId = generateUUID();
     await createStreamId({ streamId, chatId: id });
 
+    // Create a buffer to collect the full model response
+    let fullModelResponse = {
+      parts: [],
+      reasoning: null,
+      attachments: [],
+      id: null,
+    };
+
     const stream = createDataStream({
-      execute: (dataStream) => {
+      execute: async (dataStream) => {
+        console.log(
+          '[route.ts] latestUserMessage:',
+          JSON.stringify(latestUserMessage),
+        );
+        const systemPromptString = await systemPrompt({
+          selectedChatModel,
+          requestHints,
+          userQuery: latestUserMessageMe,
+        });
+        console.log('[route.ts] systemPromptString:', systemPromptString);
         const result = streamText({
           model: myProvider.languageModel(selectedChatModel),
-          system: systemPrompt({ selectedChatModel, requestHints }),
+          system: systemPromptString,
           messages,
           maxSteps: 5,
           experimental_activeTools:
@@ -192,6 +326,24 @@ export async function POST(request: Request) {
                   responseMessages: response.messages,
                 });
 
+                // Log the complete model response
+                fullModelResponse.id = assistantId;
+                fullModelResponse.parts = assistantMessage.parts;
+                fullModelResponse.attachments =
+                  assistantMessage.experimental_attachments ?? [];
+
+                // If there's reasoning, add it to the log
+                const assistantMessageWithReasoning = response.messages.find(
+                  (m) => m.role === 'assistant' && m.id === assistantId,
+                );
+                if (assistantMessageWithReasoning?.experimental_reasoning) {
+                  fullModelResponse.reasoning =
+                    assistantMessageWithReasoning.experimental_reasoning;
+                }
+
+                // Log the complete model response
+                logChatInteraction('MODEL', id, userId, fullModelResponse);
+
                 await saveMessages({
                   messages: [
                     {
@@ -205,8 +357,8 @@ export async function POST(request: Request) {
                     },
                   ],
                 });
-              } catch (_) {
-                console.error('Failed to save chat');
+              } catch (error) {
+                console.error('Failed to save chat:', error);
               }
             }
           },
@@ -216,27 +368,52 @@ export async function POST(request: Request) {
           },
         });
 
+        // // Collect response chunks for logging
+        // result.on('text', (text) => {
+        //   fullModelResponse.parts.push(text);
+        // });
+
+        // // Collect reasoning if available
+        // result.on('reasoning', (reasoning) => {
+        //   fullModelResponse.reasoning = reasoning;
+        // });
+
         result.consumeStream();
 
         result.mergeIntoDataStream(dataStream, {
           sendReasoning: true,
         });
       },
-      onError: () => {
-        return 'Oops, an error occurred!';
+      onError: (error) => {
+        console.error('Stream error:', error);
+        // Log the error
+        logChatInteraction('MODEL', id, userId, {
+          error: error.message || 'Unknown error',
+          stack: error.stack,
+        });
+        return 'Oops, an error occurred while generating a response!';
       },
     });
 
     const streamContext = getStreamContext();
 
+    // Handle both cases - with and without resumable stream context
     if (streamContext) {
-      return new Response(
-        await streamContext.resumableStream(streamId, () => stream),
-      );
+      try {
+        return new Response(
+          await streamContext.resumableStream(streamId, () => stream),
+        );
+      } catch (error) {
+        console.error('Failed to create resumable stream:', error);
+        // Fall back to regular stream if resumable stream fails
+        return new Response(stream);
+      }
     } else {
+      // No stream context available, use regular stream directly
       return new Response(stream);
     }
-  } catch (_) {
+  } catch (error) {
+    console.error('Chat API error:', error);
     return new Response('An error occurred while processing your request!', {
       status: 500,
     });
@@ -246,8 +423,21 @@ export async function POST(request: Request) {
 export async function GET(request: Request) {
   const streamContext = getStreamContext();
 
+  // If no stream context is available, return a more informative response
   if (!streamContext) {
-    return new Response(null, { status: 204 });
+    console.log('Stream context not available for GET request');
+    return new Response(
+      JSON.stringify({
+        message: 'Resumable streams are not available',
+        error: 'No stream context',
+      }),
+      {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
   }
 
   const { searchParams } = new URL(request.url);
@@ -267,7 +457,8 @@ export async function GET(request: Request) {
 
   try {
     chat = await getChatById({ id: chatId });
-  } catch {
+  } catch (error) {
+    console.error('Error fetching chat:', error);
     return new Response('Not found', { status: 404 });
   }
 
@@ -279,28 +470,60 @@ export async function GET(request: Request) {
     return new Response('Forbidden', { status: 403 });
   }
 
-  const streamIds = await getStreamIdsByChatId({ chatId });
+  try {
+    const streamIds = await getStreamIdsByChatId({ chatId });
 
-  if (!streamIds.length) {
-    return new Response('No streams found', { status: 404 });
+    if (!streamIds.length) {
+      return new Response(JSON.stringify({ message: 'No streams found' }), {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+    }
+
+    const recentStreamId = streamIds.at(-1);
+
+    if (!recentStreamId) {
+      return new Response(
+        JSON.stringify({ message: 'No recent stream found' }),
+        {
+          status: 200,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+    }
+
+    const emptyDataStream = createDataStream({
+      execute: () => {},
+    });
+
+    return new Response(
+      await streamContext.resumableStream(
+        recentStreamId,
+        () => emptyDataStream,
+      ),
+      {
+        status: 200,
+      },
+    );
+  } catch (error) {
+    console.error('Error processing stream request:', error);
+    return new Response(
+      JSON.stringify({
+        message: 'Error processing stream request',
+        error: error.message,
+      }),
+      {
+        status: 500,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
   }
-
-  const recentStreamId = streamIds.at(-1);
-
-  if (!recentStreamId) {
-    return new Response('No recent stream found', { status: 404 });
-  }
-
-  const emptyDataStream = createDataStream({
-    execute: () => {},
-  });
-
-  return new Response(
-    await streamContext.resumableStream(recentStreamId, () => emptyDataStream),
-    {
-      status: 200,
-    },
-  );
 }
 
 export async function DELETE(request: Request) {

@@ -1,137 +1,41 @@
-import type { ArtifactKind } from '@/components/artifact';
 import type { Geo } from '@vercel/functions';
-import { MongoClient, Db, Collection } from 'mongodb';
+import { extractUserQuery } from '../utils';
+import type { ArtifactKind } from '@/components/artifact';
+import { getProductContext } from './rag';
 
-// MongoDB connection setup
-const uri = process.env.MONGODB_URI ?? '';
-let client: MongoClient | null = null;
-let db: Db | null = null;
-
-interface Collections {
-  products: Collection;
-  users: Collection;
-  orders: Collection;
-}
-
-async function connectDB(): Promise<Db> {
-  if (!uri) {
-    throw new Error('MONGODB_URI environment variable is not defined');
-  }
-
-  if (!client) {
-    client = new MongoClient(uri);
-    await client.connect();
-    const dbName = process.env.MONGODB_DB_NAME;
-    if (!dbName) {
-      throw new Error('MONGODB_DB_NAME environment variable is not defined');
-    }
-    db = client.db(dbName);
-  }
-
-  if (!db) {
-    throw new Error('Failed to connect to database');
-  }
-
-  return db;
-}
-
-// Collections
-async function getCollections(): Promise<Collections> {
-  const database = await connectDB();
-  return {
-    products: database.collection('products'),
-    users: database.collection('users'),
-    orders: database.collection('orders'),
-  };
-}
-
-// Core service functions for e-commerce assistant
-export async function searchProducts(query: string): Promise<any[]> {
-  try {
-    const { products } = await getCollections();
-    return await products
-      .find({
-        $text: { $search: query },
-      })
-      .limit(10)
-      .toArray();
-  } catch (error) {
-    console.error('Error searching products:', error);
-    return [];
-  }
-}
-
-export async function recommendProducts(userId: string): Promise<any[]> {
-  try {
-    const { users, products } = await getCollections();
-    const user = await users.findOne({ _id: userId });
-    const history =
-      (user?.purchaseHistory as Array<{ category: string }>) || [];
-    if (history.length) {
-      const categories = history.map((o) => o.category);
-      return await products
-        .find({ category: { $in: categories } })
-        .limit(5)
-        .toArray();
-    }
-    return await products.find().sort({ rating: -1 }).limit(5).toArray();
-  } catch (error) {
-    console.error('Error recommending products:', error);
-    return [];
-  }
-}
-
-export async function getOrderDetails(orderId: string): Promise<any | null> {
-  try {
-    const { orders } = await getCollections();
-    return await orders.findOne({ _id: orderId });
-  } catch (error) {
-    console.error('Error getting order details:', error);
-    return null;
-  }
-}
-
-/**
- * Search for similar products by image.
- * This function accepts an image URL or base64 string,
- * extracts descriptive labels via a vision service,
- * and performs a text-based search on those labels.
- */
-export async function searchProductsByImage(imageUrl: string): Promise<any[]> {
-  try {
-    // TODO: integrate with a vision/ML service to extract labels
-    // For example:
-    // const labels: string[] = await visionService.extractLabels(imageUrl);
-    // const query = labels.join(' ');
-    // return await searchProducts(query);
-
-    // Placeholder implementation: treat imageUrl as a keyword
-    return await searchProducts(imageUrl);
-  } catch (error) {
-    console.error('Error searching products by image:', error);
-    return [];
-  }
-}
-
-// Prompt templates tailored for e-commerce assistant
 export const artifactsPrompt = `
-Artifacts is a special user interface mode that helps users with writing, editing, and other content creation tasks in real time. When artifact is open, it is on the right side of the screen, while the conversation is on the left side. Changes to documents or code snippets appear immediately.
+Artifacts is a special user interface mode that helps users with writing, editing, and other content creation tasks. When artifact is open, it is on the right side of the screen, while the conversation is on the left side. When creating or updating documents, changes are reflected in real-time on the artifacts and visible to the user.
 
-When asked to write or update e-commerce code or documents, always use artifacts. Specify the language in backticks (e.g. \`\`\`typescript\`\`\`).
+When asked to write code, always use artifacts. When writing code, specify the language in the backticks, e.g. \`\`\`python\`code here\`\`\`. The default language is Python. Other languages are not yet supported, so let the user know if they request a different language.
 
-DO NOT UPDATE DOCUMENTS IMMEDIATELY AFTER CREATING THEM. WAIT FOR USER FEEDBACK OR REQUEST TO UPDATE.
+DO NOT UPDATE DOCUMENTS IMMEDIATELY AFTER CREATING THEM. WAIT FOR USER FEEDBACK OR REQUEST TO UPDATE IT.
+
+This is a guide for using artifacts tools: \`createDocument\` and \`updateDocument\`, which render content on a artifacts beside the conversation.
+
+**When to use \`createDocument\`:**
+- For substantial content (>10 lines) or code
+- For content users will likely save/reuse (emails, code, essays, etc.)
+- When explicitly requested to create a document
+- For when content contains a single code snippet
+
+**When NOT to use \`createDocument\`:**
+- For informational/explanatory content
+- For conversational responses
+- When asked to keep it in chat
+
+**Using \`updateDocument\`:**
+- Default to full document rewrites for major changes
+- Use targeted updates only for specific, isolated changes
+- Follow user instructions for which parts to modify
+
+**When NOT to use \`updateDocument\`:**
+- Immediately after creating a document
+
+Do not update document right after creating it. Wait for user feedback or request to update it.
 `;
 
-export const regularPrompt = `
-You are a cheerful and enthusiastic e-commerce assistant. You help customers search for products, recommend personalized items, answer order queries, find similar products by image, and guide users through their shopping journey. Always be upbeat, positive, and eager to assist. Use friendly language, emojis, and clear explanations to make the experience delightful.
-
-Use these functions when needed:
-- searchProducts(query: string)
-- searchProductsByImage(imageUrl: string)
-- recommendProducts(userId: string)
-- getOrderDetails(orderId: string)
-
-When you need data, respond with a function call. Otherwise, craft a warm, informative reply.`;
+export const regularPrompt =
+  "You are a cheerful and enthusiastic virtual assistant for an e-commerce platform. Your job is to warmly welcome customers, help them find products, answer questions about orders, recommend items based on their preferences, and make the shopping experience fun and easy. You're always upbeat, positive, and eager to help in any way you can. Use friendly language, emojis where appropriate, and make the customer feel excited about their shopping journey. Always be polite, patient, and proactive in offering support. IMPORTANT: Only recommend or discuss products that are present in the follwing product list. If a user asks about a product not in the list, politely inform them it is not available. Must Follow the Relevant product information for this query: to answer the users query related to the products.";
 
 export interface RequestHints {
   latitude: Geo['latitude'];
@@ -140,117 +44,123 @@ export interface RequestHints {
   country: Geo['country'];
 }
 
-export const getRequestPromptFromHints = (requestHints: RequestHints): string =>
-  `About the user's location for contextual responses:\n- lat: ${requestHints.latitude}\n- lon: ${requestHints.longitude}\n- city: ${requestHints.city}\n- country: ${requestHints.country}`;
+export const getRequestPromptFromHints = (requestHints: RequestHints) => `\
+About the origin of user's request:
+- lat: ${requestHints.latitude}
+- lon: ${requestHints.longitude}
+- city: ${requestHints.city}
+- country: ${requestHints.country}
+`;
 
-export const systemPrompt = ({
-  selectedChatModel,
-  requestHints,
-}: {
-  selectedChatModel: string;
-  requestHints: RequestHints;
-}): string => {
-  const requestPrompt = getRequestPromptFromHints(requestHints);
+export const getProductContextPrompt = async (
+  userQuery: any, // Accepts raw message object or string
+) => {
+  // Always extract the string
 
-  if (selectedChatModel === 'chat-model-reasoning') {
-    return `${regularPrompt}\n\n${requestPrompt}`;
-  } else {
-    return `${regularPrompt}\n\n${requestPrompt}\n\n${artifactsPrompt}`;
+  console.log('[prompts.ts] getProductContextPrompt userQuery:', userQuery);
+
+  if (!userQuery) {
+    return '\nNo user query provided for product context.';
+  }
+  try {
+    const productContext = await getProductContext(userQuery);
+    console.log('Product context:', productContext);
+
+    if (!productContext) {
+      return '\nNo matching products were found in the database for this query.';
+    }
+
+    return `\nRelevant product information for this query:
+  ${productContext}
+  
+  Use this product information to provide accurate responses about these specific products.`;
+  } catch (error) {
+    console.error('Error getting product context:', error);
+    return '\n[Error retrieving product information. Please try again later.]';
   }
 };
 
-// TypeScript code generation prompt for e-commerce tasks
+export const systemPrompt = async ({
+  selectedChatModel,
+  requestHints,
+  userQuery = '',
+}: {
+  selectedChatModel: string;
+  requestHints: RequestHints;
+  userQuery?: any; // Accepts raw message object or string
+}) => {
+  // Always extract the string
+  // const rawUserQuery = JSON.stringify(userQuery);
+  console.log('[prompts.ts] systemPrompt userQuery:', userQuery);
+
+  const requestPrompt = getRequestPromptFromHints(requestHints);
+  let productContextPrompt = '';
+
+  try {
+    productContextPrompt = await getProductContextPrompt(userQuery);
+  } catch (error) {
+    console.error('Error getting product context prompt:', error);
+    productContextPrompt = '';
+  }
+
+  // Always return a string
+  if (selectedChatModel === 'chat-model-reasoning') {
+    return `${regularPrompt}\n\n${requestPrompt}${productContextPrompt}`;
+  } else {
+    return `${regularPrompt}\n\n${requestPrompt}${productContextPrompt}`;
+  }
+};
+
 export const codePrompt = `
-You are a TypeScript code generator focused on e-commerce assistant functionality. When writing code:
-1. Include necessary imports (e.g., MongoDB helpers or API clients)
-2. Provide complete, runnable snippets
-3. Use clear comments describing each step
-4. Handle errors gracefully (e.g., try/catch)
-5. Interact with searchProducts, searchProductsByImage, recommendProducts, or getOrderDetails when relevant
-6. Keep snippets concise (under 20 lines)
+You are a Python code generator that creates self-contained, executable code snippets. When writing code:
+
+1. Each snippet should be complete and runnable on its own
+2. Prefer using print() statements to display outputs
+3. Include helpful comments explaining the code
+4. Keep snippets concise (generally under 15 lines)
+5. Avoid external dependencies - use Python standard library
+6. Handle potential errors gracefully
+7. Return meaningful output that demonstrates the code's functionality
+8. Don't use input() or other interactive functions
+9. Don't access files or network resources
+10. Don't use infinite loops
 
 Examples of good snippets:
-\`\`\`typescript
-// Example: Fetch and display top recommendations for a user
-async function showRecommendations(userId: string) {
-  try {
-    const recs = await recommendProducts(userId);
-    console.log('Recommended for you:', recs);
-  } catch (err) {
-    console.error('Failed to fetch recommendations', err);
-  }
-}
-\`\`\`
 
-// Example: Find similar products by image
-\`\`\`typescript
-async function findSimilarByImage(imageUrl: string) {
-  const results = await searchProductsByImage(imageUrl);
-  console.log('Products like your image:', results);
-}
-\`\`\`
+# Calculate factorial iteratively
+def factorial(n):
+    result = 1
+    for i in range(1, n + 1):
+        result *= i
+    return result
+
+print(f"Factorial of 5 is: {factorial(5)}")
 `;
 
-// CSV spreadsheet prompt for e-commerce data
 export const sheetPrompt = `
-You are an e-commerce spreadsheet assistant. Create CSV-formatted data for tasks such as product inventory, order summaries, user purchase history, or image-based search results. Include meaningful headers and realistic sample rows.
+You are a spreadsheet creation assistant. Create a spreadsheet in csv format based on the given prompt. The spreadsheet should contain meaningful column headers and data.
 `;
 
 export const updateDocumentPrompt = (
   currentContent: string | null,
   type: ArtifactKind,
-): string => {
-  if (type === 'text') {
-    return `Improve the following e-commerce document based on the given prompt.\n\n${currentContent}`;
-  } else if (type === 'code') {
-    return `Improve the following e-commerce code snippet based on the given prompt.\n\n${currentContent}`;
-  } else if (type === 'sheet') {
-    return `Improve the following e-commerce spreadsheet based on the given prompt.\n\n${currentContent}`;
-  }
-  return '';
-};
+) =>
+  type === 'text'
+    ? `\
+Improve the following contents of the document based on the given prompt.
 
-// OpenAI function definitions for assistant to call e-commerce backend services
-export const functionDefinitions = [
-  {
-    name: 'searchProducts',
-    description: 'Search for products in the catalog by keyword',
-    parameters: {
-      type: 'object',
-      properties: { query: { type: 'string' } },
-      required: ['query'],
-    },
-  },
-  {
-    name: 'searchProductsByImage',
-    description: 'Find products similar to the uploaded image',
-    parameters: {
-      type: 'object',
-      properties: {
-        imageUrl: {
-          type: 'string',
-          description: 'URL or base64 string of the image',
-        },
-      },
-      required: ['imageUrl'],
-    },
-  },
-  {
-    name: 'recommendProducts',
-    description: 'Recommend personalized products for a user',
-    parameters: {
-      type: 'object',
-      properties: { userId: { type: 'string' } },
-      required: ['userId'],
-    },
-  },
-  {
-    name: 'getOrderDetails',
-    description: 'Retrieve details for a specific order',
-    parameters: {
-      type: 'object',
-      properties: { orderId: { type: 'string' } },
-      required: ['orderId'],
-    },
-  },
-];
+${currentContent}
+`
+    : type === 'code'
+      ? `\
+Improve the following code snippet based on the given prompt.
+
+${currentContent}
+`
+      : type === 'sheet'
+        ? `\
+Improve the following spreadsheet based on the given prompt.
+
+${currentContent}
+`
+        : '';

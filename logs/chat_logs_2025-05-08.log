@@ -1,0 +1,34 @@
+{
+  "timestamp": "2025-05-08T14:25:18.127Z",
+  "type": "USER",
+  "chatId": "4b8115b4-d814-48f8-b670-fa4f99d69c3d",
+  "userId": "11ad23ed-a0ec-4b00-b17e-1801d62dac8a",
+  "content": {
+    "message": {
+      "id": "2710e72d-1e78-4f80-8e8e-de7cb9718065",
+      "createdAt": "2025-05-08T14:25:17.009Z",
+      "role": "user",
+      "content": "hello",
+      "parts": [
+        {
+          "text": "hello",
+          "type": "text"
+        }
+      ]
+    },
+    "selectedChatModel": "chat-model",
+    "selectedVisibilityType": "private"
+  }
+}
+---
+{
+  "timestamp": "2025-05-08T14:25:19.553Z",
+  "type": "MODEL",
+  "chatId": "4b8115b4-d814-48f8-b670-fa4f99d69c3d",
+  "userId": "11ad23ed-a0ec-4b00-b17e-1801d62dac8a",
+  "content": {
+    "error": "Invalid prompt: system must be a string",
+    "stack": "AI_InvalidPromptError: Invalid prompt: system must be a string\n    at standardizePrompt (C:\\Personal_Projects\\E-Commerce_Chat-Bot\\.next\\server\\chunks\\5dfea_ai_45e0b4c1._.js:2139:15)\n    at new DefaultStreamTextResult (C:\\Personal_Projects\\E-Commerce_Chat-Bot\\.next\\server\\chunks\\5dfea_ai_45e0b4c1._.js:5360:31)\n    at streamText (C:\\Personal_Projects\\E-Commerce_Chat-Bot\\.next\\server\\chunks\\5dfea_ai_45e0b4c1._.js:4993:12)\n    at execute (C:\\Personal_Projects\\E-Commerce_Chat-Bot\\.next\\server\\chunks\\[root-of-the-server]__6397832f._.js:2670:321)\n    at createDataStream (C:\\Personal_Projects\\E-Commerce_Chat-Bot\\.next\\server\\chunks\\5dfea_ai_45e0b4c1._.js:98:24)\n    at POST (C:\\Personal_Projects\\E-Commerce_Chat-Bot\\.next\\server\\chunks\\[root-of-the-server]__6397832f._.js:2668:319)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async AppRouteRouteModule.do (C:\\Personal_Projects\\E-Commerce_Chat-Bot\\node_modules\\.pnpm\\next@15.3.0-canary.31_@open_42ea11306a60af5f68238299882ef4d7\\node_modules\\next\\dist\\compiled\\next-server\\app-route-experimental.runtime.dev.js:26:34172)\n    at async AppRouteRouteModule.handle (C:\\Personal_Projects\\E-Commerce_Chat-Bot\\node_modules\\.pnpm\\next@15.3.0-canary.31_@open_42ea11306a60af5f68238299882ef4d7\\node_modules\\next\\dist\\compiled\\next-server\\app-route-experimental.runtime.dev.js:26:41056)\n    at async doRender (C:\\Personal_Projects\\E-Commerce_Chat-Bot\\node_modules\\.pnpm\\next@15.3.0-canary.31_@open_42ea11306a60af5f68238299882ef4d7\\node_modules\\next\\dist\\server\\base-server.js:1514:42)\n    at async DevServer.renderToResponseWithComponentsImpl (C:\\Personal_Projects\\E-Commerce_Chat-Bot\\node_modules\\.pnpm\\next@15.3.0-canary.31_@open_42ea11306a60af5f68238299882ef4d7\\node_modules\\next\\dist\\server\\base-server.js:1916:28)\n    at async DevServer.renderPageComponent (C:\\Personal_Projects\\E-Commerce_Chat-Bot\\node_modules\\.pnpm\\next@15.3.0-canary.31_@open_42ea11306a60af5f68238299882ef4d7\\node_modules\\next\\dist\\server\\base-server.js:2394:24)\n    at async DevServer.renderToResponseImpl (C:\\Personal_Projects\\E-Commerce_Chat-Bot\\node_modules\\.pnpm\\next@15.3.0-canary.31_@open_42ea11306a60af5f68238299882ef4d7\\node_modules\\next\\dist\\server\\base-server.js:2431:32)\n    at async DevServer.pipeImpl (C:\\Personal_Projects\\E-Commerce_Chat-Bot\\node_modules\\.pnpm\\next@15.3.0-canary.31_@open_42ea11306a60af5f68238299882ef4d7\\node_modules\\next\\dist\\server\\base-server.js:1004:25)\n    at async NextNodeServer.handleCatchallRenderRequest (C:\\Personal_Projects\\E-Commerce_Chat-Bot\\node_modules\\.pnpm\\next@15.3.0-canary.31_@open_42ea11306a60af5f68238299882ef4d7\\node_modules\\next\\dist\\server\\next-server.js:305:17)\n    at async DevServer.handleRequestImpl (C:\\Personal_Projects\\E-Commerce_Chat-Bot\\node_modules\\.pnpm\\next@15.3.0-canary.31_@open_42ea11306a60af5f68238299882ef4d7\\node_modules\\next\\dist\\server\\base-server.js:896:17)\n    at async C:\\Personal_Projects\\E-Commerce_Chat-Bot\\node_modules\\.pnpm\\next@15.3.0-canary.31_@open_42ea11306a60af5f68238299882ef4d7\\node_modules\\next\\dist\\server\\dev\\next-dev-server.js:371:20\n    at async Span.traceAsyncFn (C:\\Personal_Projects\\E-Commerce_Chat-Bot\\node_modules\\.pnpm\\next@15.3.0-canary.31_@open_42ea11306a60af5f68238299882ef4d7\\node_modules\\next\\dist\\trace\\trace.js:157:20)\n    at async DevServer.handleRequest (C:\\Personal_Projects\\E-Commerce_Chat-Bot\\node_modules\\.pnpm\\next@15.3.0-canary.31_@open_42ea11306a60af5f68238299882ef4d7\\node_modules\\next\\dist\\server\\dev\\next-dev-server.js:368:24)\n    at async invokeRender (C:\\Personal_Projects\\E-Commerce_Chat-Bot\\node_modules\\.pnpm\\next@15.3.0-canary.31_@open_42ea11306a60af5f68238299882ef4d7\\node_modules\\next\\dist\\server\\lib\\router-server.js:235:21)\n    at async handleRequest (C:\\Personal_Projects\\E-Commerce_Chat-Bot\\node_modules\\.pnpm\\next@15.3.0-canary.31_@open_42ea11306a60af5f68238299882ef4d7\\node_modules\\next\\dist\\server\\lib\\router-server.js:426:24)\n    at async requestHandlerImpl (C:\\Personal_Projects\\E-Commerce_Chat-Bot\\node_modules\\.pnpm\\next@15.3.0-canary.31_@open_42ea11306a60af5f68238299882ef4d7\\node_modules\\next\\dist\\server\\lib\\router-server.js:450:13)\n    at async Server.requestListener (C:\\Personal_Projects\\E-Commerce_Chat-Bot\\node_modules\\.pnpm\\next@15.3.0-canary.31_@open_42ea11306a60af5f68238299882ef4d7\\node_modules\\next\\dist\\server\\lib\\start-server.js:158:13)"
+  }
+}
+---

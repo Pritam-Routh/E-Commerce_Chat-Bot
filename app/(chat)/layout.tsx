@@ -4,8 +4,19 @@ import { AppSidebar } from '@/components/app-sidebar';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 import { auth } from '../(auth)/auth';
 import Script from 'next/script';
+import { initializeRAG } from '@/lib/ai/rag';
 
 export const experimental_ppr = true;
+
+export async function generateMetadata() {
+  // Initialize RAG system in the background
+  initializeRAG().catch(console.error);
+
+  // Your existing metadata code...
+  return {
+    // Your metadata
+  };
+}
 
 export default async function Layout({
   children,
