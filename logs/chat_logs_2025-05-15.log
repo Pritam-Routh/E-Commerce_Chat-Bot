@@ -1,0 +1,88 @@
+{
+  "timestamp": "2025-05-15T06:28:55.635Z",
+  "type": "USER",
+  "chatId": "e827642e-1c19-4260-b553-181cce540cce",
+  "userId": "13d8f9e4-ac28-46e4-a6f6-2f63e38772dd",
+  "content": {
+    "message": {
+      "id": "217a9a39-da1c-45e6-a10e-33be823a1718",
+      "createdAt": "2025-05-15T06:28:52.480Z",
+      "role": "user",
+      "content": "How can I return or exchange an item I bought?",
+      "parts": [
+        {
+          "text": "How can I return or exchange an item I bought?",
+          "type": "text"
+        }
+      ]
+    },
+    "selectedChatModel": "chat-model",
+    "selectedVisibilityType": "private"
+  }
+}
+---
+{
+  "timestamp": "2025-05-15T06:29:05.698Z",
+  "type": "MODEL",
+  "chatId": "e827642e-1c19-4260-b553-181cce540cce",
+  "userId": "13d8f9e4-ac28-46e4-a6f6-2f63e38772dd",
+  "content": {
+    "parts": [
+      {
+        "type": "step-start"
+      },
+      {
+        "type": "text",
+        "text": "I am sorry, but I do not have the functionality to process returns or exchanges. Please contact customer support for assistance with this.\n"
+      }
+    ],
+    "reasoning": null,
+    "attachments": [],
+    "id": "aab44d1f-5526-4213-9886-43808491b9c9"
+  }
+}
+---
+{
+  "timestamp": "2025-05-15T06:31:00.135Z",
+  "type": "USER",
+  "chatId": "3990deb2-1315-4b8e-bc9a-fdeee955359a",
+  "userId": "13d8f9e4-ac28-46e4-a6f6-2f63e38772dd",
+  "content": {
+    "message": {
+      "id": "7d398b4a-a13c-460e-a11b-c2a1426ebc62",
+      "createdAt": "2025-05-15T06:30:58.449Z",
+      "role": "user",
+      "content": "Can you recommend a gift for a friend?",
+      "parts": [
+        {
+          "text": "Can you recommend a gift for a friend?",
+          "type": "text"
+        }
+      ]
+    },
+    "selectedChatModel": "chat-model",
+    "selectedVisibilityType": "private"
+  }
+}
+---
+{
+  "timestamp": "2025-05-15T06:31:06.893Z",
+  "type": "MODEL",
+  "chatId": "3990deb2-1315-4b8e-bc9a-fdeee955359a",
+  "userId": "13d8f9e4-ac28-46e4-a6f6-2f63e38772dd",
+  "content": {
+    "parts": [
+      {
+        "type": "step-start"
+      },
+      {
+        "type": "text",
+        "text": "I'd love to help you find the perfect gift! 🎉 To give you the best recommendations, could you tell me a little more about your friend? For example:\n\n*   What are their interests or hobbies?\n*   What's your budget?\n*   Are there any specific items they've mentioned wanting?\n\nIn the meantime, here are a couple of ideas based on the products I have:\n\n*   **For the sporty friend:** The \"Solid, Self Design Sports/Regular Cap (Pack of 2)\" is a great option! It's versatile and suitable for various occasions.\n*   **For the fun-loving friend:** The \"CADDLE & TOES Remote Control Toy Car\" is a super fun gift!\n\nLet me know more about your friend, and I can provide even better suggestions! 😊\n"
+      }
+    ],
+    "reasoning": null,
+    "attachments": [],
+    "id": "330ad74c-1c48-4688-974e-639757484268"
+  }
+}
+---

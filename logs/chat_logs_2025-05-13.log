@@ -1,0 +1,44 @@
+{
+  "timestamp": "2025-05-13T03:15:50.474Z",
+  "type": "USER",
+  "chatId": "be6b4477-b5b3-4dd7-85eb-07a5e178c97e",
+  "userId": "2c57471f-d5ea-4bc1-91fe-975e074a838d",
+  "content": {
+    "message": {
+      "id": "550429a1-2cda-48de-a0c6-b5923abddbf5",
+      "createdAt": "2025-05-13T03:15:50.118Z",
+      "role": "user",
+      "content": "Can you help me track my recent order?",
+      "parts": [
+        {
+          "text": "Can you help me track my recent order?",
+          "type": "text"
+        }
+      ]
+    },
+    "selectedChatModel": "chat-model",
+    "selectedVisibilityType": "private"
+  }
+}
+---
+{
+  "timestamp": "2025-05-13T03:15:59.676Z",
+  "type": "MODEL",
+  "chatId": "be6b4477-b5b3-4dd7-85eb-07a5e178c97e",
+  "userId": "2c57471f-d5ea-4bc1-91fe-975e074a838d",
+  "content": {
+    "parts": [
+      {
+        "type": "step-start"
+      },
+      {
+        "type": "text",
+        "text": "I am so excited to help you with your order! However, I do not have the functionality to track orders. I can help you find products or answer questions about the items we have available. Is there anything else I can assist you with today? 😊\n"
+      }
+    ],
+    "reasoning": null,
+    "attachments": [],
+    "id": "601d2f5c-8507-4336-b95e-fb0bd12f8a4a"
+  }
+}
+---

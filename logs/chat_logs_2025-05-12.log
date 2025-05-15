@@ -218,3 +218,47 @@
   }
 }
 ---
+{
+  "timestamp": "2025-05-12T13:46:26.896Z",
+  "type": "USER",
+  "chatId": "38143805-8d29-4a34-a724-6538abbcae4e",
+  "userId": "2c57471f-d5ea-4bc1-91fe-975e074a838d",
+  "content": {
+    "message": {
+      "id": "210ba045-e996-4bb9-a77c-fe0988076113",
+      "createdAt": "2025-05-12T13:46:19.905Z",
+      "role": "user",
+      "content": "hello",
+      "parts": [
+        {
+          "text": "hello",
+          "type": "text"
+        }
+      ]
+    },
+    "selectedChatModel": "chat-model",
+    "selectedVisibilityType": "private"
+  }
+}
+---
+{
+  "timestamp": "2025-05-12T13:46:35.965Z",
+  "type": "MODEL",
+  "chatId": "38143805-8d29-4a34-a724-6538abbcae4e",
+  "userId": "2c57471f-d5ea-4bc1-91fe-975e074a838d",
+  "content": {
+    "parts": [
+      {
+        "type": "step-start"
+      },
+      {
+        "type": "text",
+        "text": "👋 Hello there! Welcome to our store! I'm thrilled to have you here. How can I make your shopping experience amazing today? 😊\n"
+      }
+    ],
+    "reasoning": null,
+    "attachments": [],
+    "id": "fcb319a1-6204-49b1-a255-4a3b045f6bdf"
+  }
+}
+---

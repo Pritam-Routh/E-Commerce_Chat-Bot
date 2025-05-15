@@ -1,0 +1,308 @@
+{
+  "timestamp": "2025-05-14T06:45:42.103Z",
+  "type": "USER",
+  "chatId": "97d1899c-d0be-4071-976b-8419522bf347",
+  "userId": "2c57471f-d5ea-4bc1-91fe-975e074a838d",
+  "content": {
+    "message": {
+      "id": "e9a24af9-9a63-4975-b9ab-6883624c2f81",
+      "createdAt": "2025-05-14T06:45:27.209Z",
+      "role": "user",
+      "content": "Can you help me track my recent order?",
+      "parts": [
+        {
+          "text": "Can you help me track my recent order?",
+          "type": "text"
+        }
+      ]
+    },
+    "selectedChatModel": "chat-model",
+    "selectedVisibilityType": "private"
+  }
+}
+---
+{
+  "timestamp": "2025-05-14T06:45:55.623Z",
+  "type": "MODEL",
+  "chatId": "97d1899c-d0be-4071-976b-8419522bf347",
+  "userId": "2c57471f-d5ea-4bc1-91fe-975e074a838d",
+  "content": {
+    "parts": [
+      {
+        "type": "step-start"
+      },
+      {
+        "type": "text",
+        "text": "I am so excited to help you with your order! However, I do not have the functionality to track orders. I can help you find products or answer questions about the items we have available. Is there anything else I can assist you with today? 😊\n"
+      }
+    ],
+    "reasoning": null,
+    "attachments": [],
+    "id": "829e6dd9-2c8d-4e5f-befc-f029af48bf15"
+  }
+}
+---
+{
+  "timestamp": "2025-05-14T06:46:19.471Z",
+  "type": "USER",
+  "chatId": "48811074-c3eb-4eae-b2a5-3b43e7d0d234",
+  "userId": "2c57471f-d5ea-4bc1-91fe-975e074a838d",
+  "content": {
+    "message": {
+      "id": "0a2ff1b0-33b7-40b4-b842-5fce0bc58fbc",
+      "createdAt": "2025-05-14T06:46:19.206Z",
+      "role": "user",
+      "content": "Can you recommend a gift for a friend?",
+      "parts": [
+        {
+          "text": "Can you recommend a gift for a friend?",
+          "type": "text"
+        }
+      ]
+    },
+    "selectedChatModel": "chat-model",
+    "selectedVisibilityType": "private"
+  }
+}
+---
+{
+  "timestamp": "2025-05-14T06:46:29.721Z",
+  "type": "MODEL",
+  "chatId": "48811074-c3eb-4eae-b2a5-3b43e7d0d234",
+  "userId": "2c57471f-d5ea-4bc1-91fe-975e074a838d",
+  "content": {
+    "parts": [
+      {
+        "type": "step-start"
+      },
+      {
+        "type": "text",
+        "text": "I'd love to help you find the perfect gift! 🎉 To give you the best recommendations, could you tell me a little more about your friend? For example:\n\n*   What are their interests or hobbies?\n*   What's your budget?\n*   Are there any specific items they've mentioned wanting?\n\nIn the meantime, here are a couple of ideas based on the products I have:\n\n*   **For the sporty friend:** The \"Solid, Self Design Sports/Regular Cap (Pack of 2)\" is a great option! It's versatile and suitable for various occasions.\n*   **For the fun-loving friend:** The \"CADDLE & TOES Remote Control Toy Car\" is a super fun gift!\n\nLet me know more about your friend, and I can provide even better suggestions! 😊\n"
+      }
+    ],
+    "reasoning": null,
+    "attachments": [],
+    "id": "597b0045-af43-4cff-9879-61db0e9f56e4"
+  }
+}
+---
+{
+  "timestamp": "2025-05-14T10:28:14.324Z",
+  "type": "USER",
+  "chatId": "40b75174-66cc-4244-9663-582b5d6ac4c7",
+  "userId": "2c57471f-d5ea-4bc1-91fe-975e074a838d",
+  "content": {
+    "message": {
+      "id": "0e760686-174e-427b-be12-f1117189fdf8",
+      "createdAt": "2025-05-14T10:28:13.436Z",
+      "role": "user",
+      "content": "tell me something about amitab",
+      "parts": [
+        {
+          "text": "tell me something about amitab",
+          "type": "text"
+        }
+      ]
+    },
+    "selectedChatModel": "chat-model",
+    "selectedVisibilityType": "private"
+  }
+}
+---
+{
+  "timestamp": "2025-05-14T10:28:23.475Z",
+  "type": "MODEL",
+  "chatId": "40b75174-66cc-4244-9663-582b5d6ac4c7",
+  "userId": "2c57471f-d5ea-4bc1-91fe-975e074a838d",
+  "content": {
+    "parts": [
+      {
+        "type": "step-start"
+      },
+      {
+        "type": "text",
+        "text": "I am sorry, I cannot provide information about \"amitab\" as it is not a product in my list. However, I can help you with any questions about the products I do have! 😊\n"
+      }
+    ],
+    "reasoning": null,
+    "attachments": [],
+    "id": "5b8a46ef-19fb-473b-b1b9-711091d0760a"
+  }
+}
+---
+{
+  "timestamp": "2025-05-14T10:30:06.493Z",
+  "type": "USER",
+  "chatId": "52e83372-2b6e-45f5-a210-2657029696a9",
+  "userId": "13d8f9e4-ac28-46e4-a6f6-2f63e38772dd",
+  "content": {
+    "message": {
+      "id": "5657596c-9585-4781-bb41-8616926fa0e7",
+      "createdAt": "2025-05-14T10:30:04.823Z",
+      "role": "user",
+      "content": "Can you help me track my recent order?",
+      "parts": [
+        {
+          "text": "Can you help me track my recent order?",
+          "type": "text"
+        }
+      ]
+    },
+    "selectedChatModel": "chat-model",
+    "selectedVisibilityType": "private"
+  }
+}
+---
+{
+  "timestamp": "2025-05-14T10:30:18.198Z",
+  "type": "MODEL",
+  "chatId": "52e83372-2b6e-45f5-a210-2657029696a9",
+  "userId": "13d8f9e4-ac28-46e4-a6f6-2f63e38772dd",
+  "content": {
+    "parts": [
+      {
+        "type": "step-start"
+      },
+      {
+        "type": "text",
+        "text": "I am so excited to help you with your order! However, I do not have the functionality to track orders. I can help you find products or answer questions about the items we have available. Is there anything else I can assist you with today? 😊\n"
+      }
+    ],
+    "reasoning": null,
+    "attachments": [],
+    "id": "37dcead0-a634-457e-95b9-4d75a4d670de"
+  }
+}
+---
+{
+  "timestamp": "2025-05-14T10:33:46.225Z",
+  "type": "USER",
+  "chatId": "52e83372-2b6e-45f5-a210-2657029696a9",
+  "userId": "13d8f9e4-ac28-46e4-a6f6-2f63e38772dd",
+  "content": {
+    "message": {
+      "id": "a18df9cb-828b-4bba-8879-fb6c6648bd71",
+      "createdAt": "2025-05-14T10:33:44.093Z",
+      "role": "user",
+      "content": "csn you rcommend me a gift for my brother",
+      "parts": [
+        {
+          "text": "csn you rcommend me a gift for my brother",
+          "type": "text"
+        }
+      ]
+    },
+    "selectedChatModel": "chat-model",
+    "selectedVisibilityType": "private"
+  }
+}
+---
+{
+  "timestamp": "2025-05-14T10:33:59.864Z",
+  "type": "MODEL",
+  "chatId": "52e83372-2b6e-45f5-a210-2657029696a9",
+  "userId": "13d8f9e4-ac28-46e4-a6f6-2f63e38772dd",
+  "content": {
+    "parts": [
+      {
+        "type": "step-start"
+      },
+      {
+        "type": "text",
+        "text": "Absolutely! I'd love to help you find the perfect gift for your brother! 🎉 To give you the best recommendations, could you tell me a little bit about what he likes? For example:\n\n*   Does he enjoy sports?\n*   Is he into fashion?\n*   Does he like toys or electronics?\n\nOnce I know a bit more about his interests, I can suggest some great options from our product list! 🎁\n"
+      }
+    ],
+    "reasoning": null,
+    "attachments": [],
+    "id": "aeff1710-5a37-465a-8414-3c4de9372397"
+  }
+}
+---
+{
+  "timestamp": "2025-05-14T10:34:08.559Z",
+  "type": "USER",
+  "chatId": "52e83372-2b6e-45f5-a210-2657029696a9",
+  "userId": "13d8f9e4-ac28-46e4-a6f6-2f63e38772dd",
+  "content": {
+    "message": {
+      "id": "0674ddb2-6868-48ac-89f9-ea8e9a5bd79f",
+      "createdAt": "2025-05-14T10:34:07.925Z",
+      "role": "user",
+      "content": "hello",
+      "parts": [
+        {
+          "text": "hello",
+          "type": "text"
+        }
+      ]
+    },
+    "selectedChatModel": "chat-model-reasoning",
+    "selectedVisibilityType": "private"
+  }
+}
+---
+{
+  "timestamp": "2025-05-14T10:34:18.093Z",
+  "type": "MODEL",
+  "chatId": "52e83372-2b6e-45f5-a210-2657029696a9",
+  "userId": "13d8f9e4-ac28-46e4-a6f6-2f63e38772dd",
+  "content": {
+    "parts": [
+      {
+        "type": "step-start"
+      },
+      {
+        "type": "text",
+        "text": "Hi there! 👋 Welcome to our store! I'm so glad you're here. How can I help you find something amazing today? 😊\n"
+      }
+    ],
+    "reasoning": null,
+    "attachments": [],
+    "id": "5b365a62-ac0e-4e7a-ba29-ff75d7054b5d"
+  }
+}
+---
+{
+  "timestamp": "2025-05-14T12:02:24.288Z",
+  "type": "USER",
+  "chatId": "032efced-d881-49a7-8921-3341a6a53b50",
+  "userId": "13d8f9e4-ac28-46e4-a6f6-2f63e38772dd",
+  "content": {
+    "message": {
+      "id": "1c7011e6-0090-42c5-a04b-9caf4f4e4043",
+      "createdAt": "2025-05-14T12:02:16.625Z",
+      "role": "user",
+      "content": "Can you recommend a gift for a friend?",
+      "parts": [
+        {
+          "text": "Can you recommend a gift for a friend?",
+          "type": "text"
+        }
+      ]
+    },
+    "selectedChatModel": "chat-model",
+    "selectedVisibilityType": "private"
+  }
+}
+---
+{
+  "timestamp": "2025-05-14T12:02:38.659Z",
+  "type": "MODEL",
+  "chatId": "032efced-d881-49a7-8921-3341a6a53b50",
+  "userId": "13d8f9e4-ac28-46e4-a6f6-2f63e38772dd",
+  "content": {
+    "parts": [
+      {
+        "type": "step-start"
+      },
+      {
+        "type": "text",
+        "text": "I'd love to help you find the perfect gift! 🎉 To give you the best recommendations, could you tell me a little more about your friend? For example:\n\n*   What are their interests or hobbies?\n*   What's your budget?\n*   Are there any specific items they've mentioned wanting?\n\nIn the meantime, here are a couple of ideas based on the products I have:\n\n*   **For the sporty friend:** The \"Solid, Self Design Sports/Regular Cap (Pack of 2)\" is a great option! It's versatile and suitable for various occasions.\n*   **For the fun-loving friend:** The \"CADDLE & TOES Remote Control Toy Car\" is a super fun gift!\n\nLet me know more about your friend, and I can provide even better suggestions! 😊\n"
+      }
+    ],
+    "reasoning": null,
+    "attachments": [],
+    "id": "e6066be9-5222-4c88-8669-cc567ed9dfc4"
+  }
+}
+---
